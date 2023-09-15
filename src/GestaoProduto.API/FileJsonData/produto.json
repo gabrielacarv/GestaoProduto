@@ -1,0 +1,29 @@
+[
+  {
+    "Codigo": 1,
+    "Nome": "Produto A",
+    "Descricao": "Descrição do Produto A",
+    "Ativo": true,
+    "Valor": 19.99,
+    "DataCadastro": "2023-09-15T10:30:00Z",
+    "Estoque": 100
+  },
+  {
+    "Codigo": 2,
+    "Nome": "Produto B",
+    "Descricao": "Descrição do Produto B",
+    "Ativo": false,
+    "Valor": 29.99,
+    "DataCadastro": "2023-09-15T14:15:00Z",
+    "Estoque": 50
+  },
+  {
+    "Codigo":3,
+    "Nome": "string",
+    "Descricao": "string",
+    "Ativo": true,
+    "Valor": 9.99,
+    "DataCadastro": "2023-09-15T08:45:00Z",
+    "Estoque": 75
+  }
+]
