@@ -25,7 +25,6 @@ namespace GestaoProjeto.Application.AutoMapper
 
             CreateMap<NovaCategoriaViewModel, Categoria>()
                 .ConstructUsing(q=> new Categoria(q.Codigo, q.Descricao));
-
         }
     }
 }
