@@ -1,1 +1,26 @@
-[{"Codigo":1,"RazaoSocial":"Empresa ABC","CNPJ":"12345678901234","Ativo":true,"DataCadastro":"2023-09-15T04:45:00.183Z","EmailContato":"contato@empresaabc.com"},{"Codigo":2,"RazaoSocial":"Empresa XYZ","CNPJ":"98765432109876","Ativo":false,"DataCadastro":"2023-09-15T10:30:00.5Z","EmailContato":"contato@empresaxyz.com"},{"Codigo":3,"RazaoSocial":"Empresa 123","CNPJ":"55555555555555","Ativo":true,"DataCadastro":"2023-09-15T15:20:00.75Z","EmailContato":"contato@empresa123.com"}]
+[
+  {
+    "Codigo": 1,
+    "RazaoSocial": "Empresa ABC",
+    "CNPJ": "12345678901234",
+    "Ativo": true,
+    "DataCadastro": "2023-09-15T04:45:00.183Z",
+    "EmailContato": "contato@empresaabc.com"
+  },
+  {
+    "Codigo": 2,
+    "RazaoSocial": "Empresa XYZ",
+    "CNPJ": "98765432109876",
+    "Ativo": false,
+    "DataCadastro": "2023-09-15T10:30:00.5Z",
+    "EmailContato": "contato@empresaxyz.com"
+  },
+  {
+    "Codigo": 3,
+    "RazaoSocial": "Empresa 123",
+    "CNPJ": "55555555555555",
+    "Ativo": true,
+    "DataCadastro": "2023-09-15T15:20:00.75Z",
+    "EmailContato": "contato@empresa123.com"
+  }
+]
