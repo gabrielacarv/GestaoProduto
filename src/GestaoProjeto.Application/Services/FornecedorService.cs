@@ -26,25 +26,31 @@ namespace GestaoProjeto.Application.Services
 
 
         #region Funções
-        public void Adicionar(NovoFornecedorViewModel novoFornecedorViewModel)
+        public async Task Adicionar(NovoFornecedorViewModel novoFornecedorViewModel)
         {
-            var novoFornecedor = _mapper.Map<Fornecedor>(novoFornecedorViewModel);
-            _fornecedorRepository.Adicionar(novoFornecedor);
+            var novoFornecedor =  _mapper.Map<Fornecedor>(novoFornecedorViewModel);
+            await _fornecedorRepository.Adicionar(novoFornecedor);
         }
 
-        public bool Atualizar(NovoFornecedorViewModel fornecedorViewModel)
-        {
-            var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            bool atualizadoComSucesso = _fornecedorRepository.Atualizar(fornecedor);
+        //public bool Atualizar(NovoFornecedorViewModel fornecedorViewModel)
+        //{
+        //    var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
+        //    bool atualizadoComSucesso = _fornecedorRepository.Atualizar(fornecedor);
 
-            if (atualizadoComSucesso)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+        //    if (atualizadoComSucesso)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public async Task Atualizar(NovoFornecedorViewModel novoFornecedorViewModel)
+        {
+            var fornecedor = _mapper.Map<Fornecedor>(novoFornecedorViewModel);
+            await _fornecedorRepository.Atualizar(fornecedor);
         }
 
         public bool Deletar(int id)
@@ -61,9 +67,18 @@ namespace GestaoProjeto.Application.Services
             }
         }
 
-        public Task<IEnumerable<FornecedorViewModel>> ObterPorCategoria(int codigo)
+        public async Task<IEnumerable<FornecedorViewModel>> ObterPorFornecedor(string nomeFornecedor)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(nomeFornecedor))
+            {
+                return Enumerable.Empty<FornecedorViewModel>();
+            }
+
+            var fornecedores = await _fornecedorRepository.ObterPorFornecedor(nomeFornecedor);
+
+            var fornecedoresViewModel = _mapper.Map<IEnumerable<FornecedorViewModel>>(fornecedores);
+
+            return fornecedoresViewModel;
         }
 
         public async Task<FornecedorViewModel> ObterPorId(int id)

@@ -54,5 +54,6 @@ namespace GestaoProduto.Data.Providers.MongoDb.Interfaces
 
         Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
         Task DeleteOneAsync(FilterDefinition<ProdutoCollection> filter);
+        Task InsertOneAsync(CategoriaCollection categoriaCollection);
     }
 }

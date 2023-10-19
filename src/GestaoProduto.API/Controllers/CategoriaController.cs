@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using GestaoProduto.Data.Repository;
 using GestaoProjeto.Application.Interfaces;
 using GestaoProduto.Domain.Entities;
+using GestaoProjeto.Application.Services;
 
 namespace GestaoProduto.API.Controllers
 {
@@ -38,20 +39,29 @@ namespace GestaoProduto.API.Controllers
             return Ok("Registro adicionado com sucesso!");
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, NovaCategoriaViewModel novaCategoriaViewModel)
-        {
-            novaCategoriaViewModel.Codigo = id;
-            bool atualizadoComSucesso = _categoriaService.Atualizar(novaCategoriaViewModel);
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, NovaCategoriaViewModel novaCategoriaViewModel)
+        //{
+        //    novaCategoriaViewModel.Codigo = id;
+        //    bool atualizadoComSucesso = _categoriaService.Atualizar(novaCategoriaViewModel);
 
-            if (atualizadoComSucesso)
-            {
-                return Ok("Registro atualizado com sucesso!");
-            }
-            else
-            {
-                return NotFound("Registro inexistente ou não pôde ser atualizado.");
-            }
+        //    if (atualizadoComSucesso)
+        //    {
+        //        return Ok("Registro atualizado com sucesso!");
+        //    }
+        //    else
+        //    {
+        //        return NotFound("Registro inexistente ou não pôde ser atualizado.");
+        //    }
+        //}
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, NovaCategoriaViewModel novoCategoriaViewModel)
+        {
+            novoCategoriaViewModel.Codigo = id;
+            _categoriaService.Atualizar(novoCategoriaViewModel);
+
+            return Ok("Registro atualizado com sucesso!");
         }
 
         [HttpDelete("{id}")]

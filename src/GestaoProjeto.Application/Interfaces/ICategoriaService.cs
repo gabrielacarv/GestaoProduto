@@ -12,8 +12,8 @@ namespace GestaoProjeto.Application.Interfaces
         Task<IEnumerable<CategoriaViewModel>> ObterTodos();
         Task<CategoriaViewModel> ObterPorId(int id);
         Task<IEnumerable<CategoriaViewModel>> ObterPorCategoria(int codigo);
-        void Adicionar(NovaCategoriaViewModel produto);
-        bool Atualizar(NovaCategoriaViewModel produto);
+        Task Adicionar(NovaCategoriaViewModel produto);
+        Task Atualizar(NovaCategoriaViewModel produto);
         bool Deletar(int id);
     }
 }

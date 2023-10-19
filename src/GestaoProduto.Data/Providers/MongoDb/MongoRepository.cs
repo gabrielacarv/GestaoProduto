@@ -144,5 +144,10 @@ namespace GestaoProduto.Data.Providers.MongoDb
         {
             throw new NotImplementedException();
         }
+
+        public Task InsertOneAsync(CategoriaCollection categoriaCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

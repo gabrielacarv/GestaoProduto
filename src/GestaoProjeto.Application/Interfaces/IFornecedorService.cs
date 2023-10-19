@@ -1,4 +1,5 @@
-﻿using GestaoProjeto.Application.ViewModels;
+﻿using GestaoProduto.Domain.Entities;
+using GestaoProjeto.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,9 @@ namespace GestaoProjeto.Application.Interfaces
     {
         Task<IEnumerable<FornecedorViewModel>> ObterTodos();
         Task<FornecedorViewModel> ObterPorId(int id);
-        Task<IEnumerable<FornecedorViewModel>> ObterPorCategoria(int codigo);
-
-        void Adicionar(NovoFornecedorViewModel novoFornecedor);
-        bool Atualizar(NovoFornecedorViewModel novoFornecedor);
+        Task<IEnumerable<FornecedorViewModel>> ObterPorFornecedor(string nomeFornecedor);
+        Task Adicionar(NovoFornecedorViewModel novoFornecedor);
+        Task Atualizar(NovoFornecedorViewModel novoFornecedor);
         bool Deletar(int id);
     }
 }

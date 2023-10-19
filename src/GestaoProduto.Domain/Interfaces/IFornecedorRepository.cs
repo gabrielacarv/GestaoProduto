@@ -11,10 +11,9 @@ namespace GestaoProduto.Domain.Interfaces
     {
         Task<IEnumerable<Fornecedor>> ObterTodos();
         Task<Fornecedor> ObterPorId(int id);
-        Task<IEnumerable<Fornecedor>> ObterPorCategoria(int codigo);
-
-        void Adicionar(Fornecedor fornecedor);
-        bool Atualizar(Fornecedor fornecedor);
+        Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor);
+        Task Adicionar(Fornecedor fornecedor);
+        Task Atualizar(Fornecedor fornecedor);
         bool Deletar(int id);
     }
 }

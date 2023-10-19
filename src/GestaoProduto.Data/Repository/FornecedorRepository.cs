@@ -1,4 +1,7 @@
-﻿using GestaoProduto.Domain.Entities;
+﻿using AutoMapper;
+using GestaoProduto.Data.Providers.MongoDb.Collections;
+using GestaoProduto.Data.Providers.MongoDb.Interfaces;
+using GestaoProduto.Domain.Entities;
 using GestaoProduto.Domain.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -11,9 +14,10 @@ namespace GestaoProduto.Data.Repository
 {
     public class FornecedorRepository : IFornecedorRepository
     {
-        private readonly string _fornecedorCaminhoArquivo;
 
-        #region Construtores
+        #region Construtor Json
+
+        private readonly string _fornecedorCaminhoArquivo;
 
         public FornecedorRepository()
         {
@@ -22,31 +26,81 @@ namespace GestaoProduto.Data.Repository
 
         #endregion
 
-        #region Funções do Arquivo 
-        public void Adicionar(Fornecedor fornecedor)
+        #region Construtor MongoDB
+
+        private readonly IMongoRepository<FornecedorCollection> _fornecedorRepository;
+        private readonly IMapper _mapper;
+
+        public FornecedorRepository(IMongoRepository<FornecedorCollection> fornecedorRepository, IMapper mapper)
         {
-            List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
-            int proximoCodigo = ObterProximoCodigoDisponivel();
-            fornecedores.Add(fornecedor);
-            EscreverFornecedorNoArquivo(fornecedores);
+            _fornecedorRepository = fornecedorRepository;
+            _mapper = mapper;
         }
 
-        public bool Atualizar(Fornecedor fornecedor)
-        {
-            List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
-            var fornecedorExistente = fornecedores.FirstOrDefault(p => p.Codigo == fornecedor.Codigo);
-            if (fornecedorExistente != null)
-            {
-                fornecedorExistente.AlterarRazaoSocial(fornecedor.RazaoSocial);
-                fornecedorExistente.AlterarEmailContato(fornecedor.EmailContato);
+        #endregion
 
-                EscreverFornecedorNoArquivo(fornecedores);
-                return true;
-            }
-            else
+        #region Funções do Arquivo 
+        //public async Task Adicionar(Fornecedor fornecedor)
+        //{
+        //    List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
+        //    int proximoCodigo = ObterProximoCodigoDisponivel();
+        //    fornecedores.Add(fornecedor);
+        //    EscreverFornecedorNoArquivo(fornecedores);
+        //}
+
+        public async Task Adicionar(Fornecedor fornecedor)
+        {
+            await _fornecedorRepository.InsertOneAsync(_mapper.Map<FornecedorCollection>(fornecedor));
+
+            //ProdutoCollection produtoCollection = new ProdutoCollection();
+            //produtoCollection.Codigo = produto.Codigo;
+            //produtoCollection.Nome = produto.Nome;
+            //produtoCollection.Descricao = produto.Descricao;
+            //produtoCollection.Ativo = produto.Ativo;
+            //produtoCollection.Valor = produto.Valor;
+            //produtoCollection.DataCadastro = produto.DataCadastro;
+            //produtoCollection.Estoque = produto.Estoque;
+
+
+            //await _produtoRepository.InsertOneAsync(produtoCollection);
+        }
+
+        //public async Task Atualizar(Fornecedor fornecedor)
+        //{
+        //    List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
+        //    var fornecedorExistente = fornecedores.FirstOrDefault(p => p.Codigo == fornecedor.Codigo);
+        //    if (fornecedorExistente != null)
+        //    {
+        //        fornecedorExistente.AlterarRazaoSocial(fornecedor.RazaoSocial);
+        //        fornecedorExistente.AlterarEmailContato(fornecedor.EmailContato);
+
+        //        EscreverFornecedorNoArquivo(fornecedores);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public async Task Atualizar(Fornecedor fornecedor)
+        {
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == fornecedor.Codigo);
+            var fornecedorAtualizar = buscaFornecedor.FirstOrDefault();
+
+            if (fornecedorAtualizar == null)
             {
-                return false;
+                throw new ApplicationException("Produto não encontrado.");
             }
+
+            fornecedorAtualizar.Codigo = fornecedor.Codigo;
+            fornecedorAtualizar.RazaoSocial = fornecedor.RazaoSocial;
+            fornecedorAtualizar.CNPJ = fornecedor.CNPJ;
+            fornecedorAtualizar.Ativo = fornecedor.Ativo;
+            fornecedorAtualizar.DataCadastro = fornecedor.DataCadastro;
+            fornecedorAtualizar.EmailContato = fornecedor.EmailContato;
+
+            await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorAtualizar));
         }
 
         public bool Deletar(int id)
@@ -65,9 +119,11 @@ namespace GestaoProduto.Data.Repository
             }
         }
 
-        public Task<IEnumerable<Fornecedor>> ObterPorCategoria(int codigo)
+        public Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor)
         {
-            throw new NotImplementedException();
+            var fornecedoresEncontrados = _fornecedorRepository.FilterBy(filter => filter.RazaoSocial.Contains(nomeFornecedor));
+
+            return (Task<IEnumerable<Fornecedor>>)_mapper.Map<IEnumerable<Fornecedor>>(fornecedoresEncontrados);
         }
 
         public async Task<Fornecedor> ObterPorId(int id)
@@ -113,7 +169,7 @@ namespace GestaoProduto.Data.Repository
         {
             string json = JsonConvert.SerializeObject(fornecedores);
             System.IO.File.WriteAllText(_fornecedorCaminhoArquivo, json);
-        }     
+        }   
         #endregion
     }
 }

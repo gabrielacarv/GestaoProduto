@@ -14,6 +14,8 @@ namespace GestaoProduto.Data.AutoMapper
         public DomainToCollection()
         {
             CreateMap<Produto, ProdutoCollection>();
+            CreateMap<Fornecedor, FornecedorCollection>();
+            CreateMap<Categoria, CategoriaCollection>();
         }
     }
 }

@@ -39,20 +39,29 @@ namespace GestaoProduto.API.Controllers
             return Ok("Registro adicionado com sucesso!");
         }
 
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, NovoFornecedorViewModel novoFornecedorViewModel)
+        //{
+        //    novoFornecedorViewModel.Codigo = id;
+        //    bool atualizadoComSucesso = _fornecedorService.Atualizar(novoFornecedorViewModel);
+
+        //    if (atualizadoComSucesso)
+        //    {
+        //        return Ok("Registro atualizado com sucesso!");
+        //    }
+        //    else
+        //    {
+        //        return NotFound("Registro inexistente ou não pôde ser atualizado.");
+        //    }
+        //}
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, NovoFornecedorViewModel novoFornecedorViewModel)
         {
             novoFornecedorViewModel.Codigo = id;
-            bool atualizadoComSucesso = _fornecedorService.Atualizar(novoFornecedorViewModel);
+            _fornecedorService.Atualizar(novoFornecedorViewModel);
 
-            if (atualizadoComSucesso)
-            {
-                return Ok("Registro atualizado com sucesso!");
-            }
-            else
-            {
-                return NotFound("Registro inexistente ou não pôde ser atualizado.");
-            }
+            return Ok("Registro atualizado com sucesso!");
         }
 
         [HttpDelete("{id}")]
