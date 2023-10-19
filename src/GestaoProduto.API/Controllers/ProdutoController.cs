@@ -15,11 +15,17 @@ namespace GestaoProduto.API.Controllers
             _produtoService = produtoService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    var produtos = await _produtoService.ObterTodos();
+        //    return Ok(produtos);
+        //}
+
+        [HttpGet(Name = "ObterTodos")]
+        public IActionResult Get()
         {
-            var produtos = await _produtoService.ObterTodos();
-            return Ok(produtos);
+            return Ok(_produtoService.ObterTodos());
         }
 
         [HttpGet("{id}")]
@@ -29,10 +35,26 @@ namespace GestaoProduto.API.Controllers
             return Ok(produto);
         }
 
+        [HttpGet("BuscarPorNome/{nome}")]
+        public async Task<IActionResult> ObterPorNome(string nome)
+        {
+            var produtos = await _produtoService.ObterPorNome(nome);
+
+            if (produtos.Any())
+            {
+                return Ok(produtos);
+            }
+            else
+            {
+                return NotFound("Nenhum produto encontrado com o nome especificado.");
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(NovoProdutoViewModel novoProdutoViewModel)
         {
             _produtoService.Adicionar(novoProdutoViewModel);
+
             return Ok("Registro adicionado com sucesso!");
         }
 
@@ -40,34 +62,58 @@ namespace GestaoProduto.API.Controllers
         public IActionResult Put(int id, NovoProdutoViewModel novoProdutoViewModel)
         {
             novoProdutoViewModel.Codigo = id;         
-            bool atualizadoComSucesso = _produtoService.Atualizar(novoProdutoViewModel);
+            _produtoService.Atualizar(novoProdutoViewModel);
 
-            if (atualizadoComSucesso)
-            {
-                return Ok("Registro atualizado com sucesso!");
-            }
-            else
-            {
-                return NotFound("Registro inexistente ou não pôde ser atualizado.");
-            }
+            return Ok("Registro atualizado com sucesso!");
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpPut("AtualizarEstoque/{id}/{quantidade}")]
+        public async Task<IActionResult> AtualizaEstoque(int id, int quantidade)
         {
-            bool excluidoComSucesso = _produtoService.Deletar(id);
+            await _produtoService.AtualizarEstoque(id, quantidade);
 
-            if (excluidoComSucesso)
-            {
-                return Ok("Registro excluído com sucesso!");
-            }
-            else
-            {
-                return NotFound("Registro não encontrado ou não pôde ser excluído.");
-            }
+            return Ok("Estoque do produto alterado com sucesso");
         }
 
+        [HttpPut("AlterarPreco/{id}/{novoPreco}")]
+        public async Task<IActionResult> AlterarPreco(int id, decimal novoPreco)
+        {
+            await _produtoService.AlterarPreco(id, novoPreco);
 
-        
+            return Ok("Preço do produto alterado com sucesso");
+        }
+
+        [HttpPut]
+        [Route("Ativar/{id}")]
+        public async Task<IActionResult> Ativa(int id)
+        {
+            await _produtoService.Ativar(id);
+
+            return Ok("Produto ativado com sucesso");
+        }
+
+        [HttpPut]
+        [Route("Desativar/{id}")]
+        public async Task<IActionResult> Desativa(int id)
+        {
+            await _produtoService.Desativar(id);
+
+            return Ok("Produto desativado com sucesso");
+        }
+
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    try
+        //    {
+        //        await _produtoService.Deletar(id);
+        //        return Ok("Produto excluído com sucesso");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest($"Erro ao excluir o produto: {ex.Message}");
+        //    }
+        //}
+
     }
 }

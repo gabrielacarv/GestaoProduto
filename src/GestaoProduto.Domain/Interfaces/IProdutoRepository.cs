@@ -9,12 +9,15 @@ namespace GestaoProduto.Domain.Interfaces
 {
     public interface IProdutoRepository
     {
-        Task<IEnumerable<Produto>> ObterTodos();
+        IEnumerable<Produto> ObterTodos();
         Task<Produto> ObterPorId(int id);
-        Task<IEnumerable<Produto>> ObterPorCategoria(int codigo);
-
-        void Adicionar(Produto novoproduto);
-        bool Atualizar(Produto produto);
-        bool Deletar(int id);
+        Task<IEnumerable<Produto>> ObterPorNome(string nomeProduto);
+        Task Adicionar(Produto produto);
+        Task Atualizar(Produto produto);
+        //Task Deletar(int id);
+        Task Ativar(Produto produto);
+        Task Desativar(Produto produto);
+        Task AlterarPreco(Produto produto, decimal valor);
+        Task AtualizarEstoque(Produto produto, int quantidade);
     }
 }

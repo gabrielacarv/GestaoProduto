@@ -13,7 +13,7 @@ namespace GestaoProjeto.Application.ViewModels
         public string Descricao { get; set; }
         public bool Ativo { get; set; }
         public decimal Valor { get; set; }
-        public DateTime DataCadastro { get; set; }
+        public DateTime DataCadastro { get; private set; } = DateTime.Now;
         public int Estoque { get; set; }
     }
 }

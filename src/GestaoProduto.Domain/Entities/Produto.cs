@@ -10,12 +10,6 @@ namespace GestaoProduto.Domain.Entities
     public class Produto
     {
         #region - Construtores
-        //protected Produto()
-        //{
-        //    // Construtor padrão vazio.
-        //}
-
-
         public Produto(int codigo, string nome, string descricao, bool ativo, decimal valor, DateTime dataCadastro, int estoque)
         {
             Codigo = codigo;
@@ -26,16 +20,6 @@ namespace GestaoProduto.Domain.Entities
             DataCadastro = dataCadastro;
             Estoque = estoque;
         }
-
-        //public Produto(string nome, string descricao, bool ativo, decimal valor, DateTime dataCadastro, int estoque)
-        //{
-        //    Nome = nome;
-        //    Descricao = descricao;
-        //    Ativo = ativo;
-        //    Valor = valor;
-        //    DataCadastro = dataCadastro;
-        //    Estoque = estoque;
-        //}
         #endregion
 
         #region - Propriedades
@@ -71,18 +55,17 @@ namespace GestaoProduto.Domain.Entities
             Nome = novoNome;
         }
 
-        public void AdicionarEstoque(int quantidade)
+        public void AtualizarEstoque(int quantidade)
         {
             Estoque += quantidade;
         }
 
-        public void BaixarEstoque(int quantidade)
-        {
-            if (quantidade < 0) quantidade *= -1;
-            if (!PossuiEstoque(quantidade)) throw new Exception("Estoque insuficiente");
-            Estoque -= quantidade;
-        }
         public bool PossuiEstoque(int quantidade) => Estoque >= quantidade;
+
+        public void AlterarPreco(decimal valor)
+        {
+            Valor = valor;
+        }
 
         #endregion
     }
