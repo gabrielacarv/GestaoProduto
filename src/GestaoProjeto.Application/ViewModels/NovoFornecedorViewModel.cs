@@ -12,7 +12,7 @@ namespace GestaoProjeto.Application.ViewModels
         public string RazaoSocial { get; set; }
         public string CNPJ { get; set; }
         public bool Ativo { get; set; }
-        public DateTime DataCadastro { get; set; }
+        public DateTime DataCadastro { get; private set; } = DateTime.Now;
         public string EmailContato { get; set; }
     }
 }

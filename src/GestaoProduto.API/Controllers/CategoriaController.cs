@@ -64,6 +64,14 @@ namespace GestaoProduto.API.Controllers
             return Ok("Registro atualizado com sucesso!");
         }
 
+        [HttpPut("AtualizarRazaoSocial/{id}/{novaDescricao}")]
+        public async Task<IActionResult> AlterarDescricao(int id, string novaDescricao)
+        {
+            await _categoriaService.AlterarDescricao(id, novaDescricao);
+
+            return Ok("Descrição da categoria alterada com sucesso");
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

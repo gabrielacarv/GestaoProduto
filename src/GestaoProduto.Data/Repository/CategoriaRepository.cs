@@ -39,10 +39,22 @@ namespace GestaoProduto.Data.Repository
         #endregion
 
         #region Funções do Arquivo 
-        public Task<IEnumerable<Categoria>> ObterTodos()
+        public IEnumerable<Categoria> ObterTodos()
         {
-            List<Categoria> categorias = LerCategoriasDoArquivo();
-            return Task.FromResult<IEnumerable<Categoria>>(categorias);
+            //List<Categoria> categorias = LerCategoriasDoArquivo();
+            //return Task.FromResult<IEnumerable<Categoria>>(categorias);
+
+            var categoriaList = _categoriaRepository.FilterBy(filter => true);
+
+            List<Categoria> lista = new List<Categoria>();
+            foreach (var item in categoriaList)
+            {
+                lista.Add(new Categoria(item.Codigo, item.Descricao));
+            }
+
+            //return _mapper.Map<IEnurable<Produto>>(produtoList);
+
+            return lista;
         }
 
         public async Task<Categoria> ObterPorId(int id)
@@ -54,6 +66,17 @@ namespace GestaoProduto.Data.Repository
         public Task<IEnumerable<Categoria>> ObterPorCategoria(string nomeCategoria)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task AlterarDescricao(Categoria categoria, string novaDescricao)
+        {
+            var buscaCategoria = _categoriaRepository.FilterBy(filter => filter.Codigo == categoria.Codigo);
+
+            var categoriaDescricao = buscaCategoria.FirstOrDefault();
+
+            categoriaDescricao.Descricao = categoria.Descricao;
+
+            await _categoriaRepository.ReplaceOneAsync(_mapper.Map<CategoriaCollection>(categoriaDescricao));
         }
 
         //public void Adicionar(Categoria categoria)
@@ -172,6 +195,7 @@ namespace GestaoProduto.Data.Repository
             string json = JsonConvert.SerializeObject(categorias);
             System.IO.File.WriteAllText(_categoriaCaminhoArquivo, json);
         }
+
         #endregion
     }
 }

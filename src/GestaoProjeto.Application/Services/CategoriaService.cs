@@ -31,6 +31,20 @@ namespace GestaoProjeto.Application.Services
             await _categoriaRepository.Adicionar(novaCategoria);
         }
 
+        public async Task AlterarDescricao(int id, string novaDescricao)
+        {
+            var buscaCategoria = await _categoriaRepository.ObterPorId(id);
+
+            if (buscaCategoria == null)
+            {
+                throw new ApplicationException("Não é possível alterar a descrição de uma categoria que não existe!");
+            }
+
+            buscaCategoria.AlterarDescricao(novaDescricao);
+
+            await _categoriaRepository.AlterarDescricao(buscaCategoria, novaDescricao);
+        }
+
         //public bool Atualizar(NovaCategoriaViewModel novaCategoriaViewModel)
         //{
         //    var categoria = _mapper.Map<Categoria>(novaCategoriaViewModel);
@@ -79,8 +93,9 @@ namespace GestaoProjeto.Application.Services
 
         public async Task<IEnumerable<CategoriaViewModel>> ObterTodos()
         {
-            var categorias = await _categoriaRepository.ObterTodos();
-            return _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
+            //var categorias = await _categoriaRepository.ObterTodos();
+            //return _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
+            return _mapper.Map<IEnumerable<CategoriaViewModel>>(_categoriaRepository.ObterTodos());
         }     
         #endregion
     }

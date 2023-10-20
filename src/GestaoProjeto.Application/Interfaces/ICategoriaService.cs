@@ -1,4 +1,5 @@
-﻿using GestaoProjeto.Application.ViewModels;
+﻿using GestaoProduto.Domain.Entities;
+using GestaoProjeto.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace GestaoProjeto.Application.Interfaces
         Task Adicionar(NovaCategoriaViewModel produto);
         Task Atualizar(NovaCategoriaViewModel produto);
         bool Deletar(int id);
+        Task AlterarDescricao(int id, string novaDescricao);
     }
 }

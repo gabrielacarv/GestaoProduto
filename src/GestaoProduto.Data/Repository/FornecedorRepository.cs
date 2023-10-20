@@ -50,19 +50,18 @@ namespace GestaoProduto.Data.Repository
 
         public async Task Adicionar(Fornecedor fornecedor)
         {
-            await _fornecedorRepository.InsertOneAsync(_mapper.Map<FornecedorCollection>(fornecedor));
+            //await _fornecedorRepository.InsertOneAsync(_mapper.Map<FornecedorCollection>(fornecedor));
 
-            //ProdutoCollection produtoCollection = new ProdutoCollection();
-            //produtoCollection.Codigo = produto.Codigo;
-            //produtoCollection.Nome = produto.Nome;
-            //produtoCollection.Descricao = produto.Descricao;
-            //produtoCollection.Ativo = produto.Ativo;
-            //produtoCollection.Valor = produto.Valor;
-            //produtoCollection.DataCadastro = produto.DataCadastro;
-            //produtoCollection.Estoque = produto.Estoque;
+            FornecedorCollection categoriaCollection = new FornecedorCollection();
+            categoriaCollection.Codigo = fornecedor.Codigo;
+            categoriaCollection.RazaoSocial = fornecedor.RazaoSocial;
+            categoriaCollection.CNPJ = fornecedor.CNPJ;
+            categoriaCollection.Ativo = fornecedor.Ativo;
+            categoriaCollection.DataCadastro = fornecedor.DataCadastro;
+            categoriaCollection.EmailContato = fornecedor.EmailContato;
+            
 
-
-            //await _produtoRepository.InsertOneAsync(produtoCollection);
+            await _fornecedorRepository.InsertOneAsync(categoriaCollection);
         }
 
         //public async Task Atualizar(Fornecedor fornecedor)
@@ -119,6 +118,28 @@ namespace GestaoProduto.Data.Repository
             }
         }
 
+        public async Task AlterarEmailContato(Fornecedor fornecedor, string novoEmail)
+        {
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == fornecedor.Codigo);
+
+            var fornecedorEmail = buscaFornecedor.FirstOrDefault();
+
+            fornecedorEmail.EmailContato = fornecedor.EmailContato;
+
+            await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorEmail));
+        }
+
+        public async Task AlterarRazaoSocial(Fornecedor fornecedor, string novaRazaoSocial)
+        {
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == fornecedor.Codigo);
+
+            var fornecedorRazaoSocial = buscaFornecedor.FirstOrDefault();
+
+            fornecedorRazaoSocial.EmailContato = fornecedor.EmailContato;
+
+            await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorRazaoSocial));
+        }
+
         public Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor)
         {
             var fornecedoresEncontrados = _fornecedorRepository.FilterBy(filter => filter.RazaoSocial.Contains(nomeFornecedor));
@@ -132,10 +153,43 @@ namespace GestaoProduto.Data.Repository
             return await Task.FromResult(fornecedores.FirstOrDefault(p => p.Codigo == id));
         }
 
-        public Task<IEnumerable<Fornecedor>> ObterTodos()
+        public IEnumerable<Fornecedor> ObterTodos()
         {
-            List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
-            return Task.FromResult<IEnumerable<Fornecedor>>(fornecedores);
+            //List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
+            //return Task.FromResult<IEnumerable<Fornecedor>>(fornecedores);
+            var fornecedorList = _fornecedorRepository.FilterBy(filter => true);
+
+            List<Fornecedor> lista = new List<Fornecedor>();
+            foreach (var item in fornecedorList)
+            {
+                lista.Add(new Fornecedor(item.Codigo, item.RazaoSocial, item.CNPJ, item.Ativo, item.DataCadastro, item.EmailContato));
+            }
+
+            //return _mapper.Map<IEnurable<Produto>>(produtoList);
+
+            return lista;
+        }
+
+        public async Task Ativar(Fornecedor fornecedor)
+        {
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == fornecedor.Codigo);
+
+            var fornecedorAtivar = buscaFornecedor.FirstOrDefault();
+
+            fornecedorAtivar.Ativo = fornecedor.Ativo;
+
+            await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorAtivar));
+        }
+
+        public async Task Desativar(Fornecedor fornecedor)
+        {
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == fornecedor.Codigo);
+
+            var fornecedorDesativar = buscaFornecedor.FirstOrDefault();
+
+            fornecedorDesativar.Ativo = fornecedor.Ativo;
+
+            await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorDesativar));
         }
 
         #endregion
@@ -169,7 +223,9 @@ namespace GestaoProduto.Data.Repository
         {
             string json = JsonConvert.SerializeObject(fornecedores);
             System.IO.File.WriteAllText(_fornecedorCaminhoArquivo, json);
-        }   
+        }
+
+
         #endregion
     }
 }

@@ -32,6 +32,34 @@ namespace GestaoProjeto.Application.Services
             await _fornecedorRepository.Adicionar(novoFornecedor);
         }
 
+        public async Task AlterarEmailContato(int id, string novoEmail)
+        {
+            var buscaFornecedor = await _fornecedorRepository.ObterPorId(id);
+
+            if (buscaFornecedor == null)
+            {
+                throw new ApplicationException("Não é possível alterar o email de um fornecedor que não existe!");
+            }
+
+            buscaFornecedor.AlterarEmailContato(novoEmail);
+
+            await _fornecedorRepository.AlterarEmailContato(buscaFornecedor, novoEmail);
+        }
+
+        public async Task AlterarRazaoSocial(int id, string novaRazaoSocial)
+        {
+            var buscaFornecedor = await _fornecedorRepository.ObterPorId(id);
+
+            if (buscaFornecedor == null)
+            {
+                throw new ApplicationException("Não é possível alterar a razão social de um fornecedor que não existe!");
+            }
+
+            buscaFornecedor.AlterarRazaoSocial(novaRazaoSocial);
+
+            await _fornecedorRepository.AlterarRazaoSocial(buscaFornecedor, novaRazaoSocial);
+        }
+
         //public bool Atualizar(NovoFornecedorViewModel fornecedorViewModel)
         //{
         //    var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
@@ -89,8 +117,33 @@ namespace GestaoProjeto.Application.Services
 
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
-            var fornecedores = await _fornecedorRepository.ObterTodos();
-            return _mapper.Map<IEnumerable<FornecedorViewModel>>(fornecedores);
+            //var fornecedores = await _fornecedorRepository.ObterTodos();
+            //return _mapper.Map<IEnumerable<FornecedorViewModel>>(fornecedores);
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(_fornecedorRepository.ObterTodos());
+        }
+
+        public async Task Ativar(int id)
+        {
+            var buscaFornecedor = await _fornecedorRepository.ObterPorId(id);
+
+            if (buscaFornecedor == null) 
+                throw new ApplicationException("Não é possível ativar um fornecedor que não existe!");
+
+            buscaFornecedor.Ativar();
+
+            await _fornecedorRepository.Ativar(buscaFornecedor);
+        }
+
+        public async Task Desativar(int id)
+        {
+            var buscaFornecedor = await _fornecedorRepository.ObterPorId(id);
+
+            if (buscaFornecedor == null) 
+                throw new ApplicationException("Não é possível desativar um fornecedor que não existe!");
+
+            buscaFornecedor.Desativar();
+
+            await _fornecedorRepository.Desativar(buscaFornecedor);
         }
         #endregion
     }

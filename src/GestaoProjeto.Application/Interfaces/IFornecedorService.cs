@@ -16,5 +16,9 @@ namespace GestaoProjeto.Application.Interfaces
         Task Adicionar(NovoFornecedorViewModel novoFornecedor);
         Task Atualizar(NovoFornecedorViewModel novoFornecedor);
         bool Deletar(int id);
+        Task AlterarEmailContato(int id, string novoEmail);
+        Task AlterarRazaoSocial(int id, string novaRazaoSocial);
+        Task Ativar(int id);
+        Task Desativar(int id);
     }
 }

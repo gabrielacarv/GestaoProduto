@@ -9,11 +9,15 @@ namespace GestaoProduto.Domain.Interfaces
 {
     public interface IFornecedorRepository
     {
-        Task<IEnumerable<Fornecedor>> ObterTodos();
+        IEnumerable<Fornecedor> ObterTodos();
         Task<Fornecedor> ObterPorId(int id);
         Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor);
         Task Adicionar(Fornecedor fornecedor);
         Task Atualizar(Fornecedor fornecedor);
         bool Deletar(int id);
+        Task AlterarEmailContato(Fornecedor fornecedor, string novoEmail);
+        Task AlterarRazaoSocial(Fornecedor fornecedor, string novaRazaoSocial);
+        Task Ativar(Fornecedor fornecedor);
+        Task Desativar(Fornecedor fornecedor);
     }
 }

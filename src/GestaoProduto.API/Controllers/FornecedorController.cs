@@ -78,5 +78,39 @@ namespace GestaoProduto.API.Controllers
                 return NotFound("Registro não encontrado ou não pôde ser excluído.");
             }
         }
+
+        [HttpPut("AtualizarEmail/{id}/{novoEmail}")]
+        public async Task<IActionResult> AlterarEmailContato(int id ,string novoEmail)
+        {
+            await _fornecedorService.AlterarEmailContato(id, novoEmail);
+
+            return Ok("Email do fornecedor alterado com sucesso");
+        }
+
+        [HttpPut("AtualizarRazaoSocial/{id}/{novaRazaoSocial}")]
+        public async Task<IActionResult> AlterarRazaoSocial(int id, string novaRazaoSocial)
+        {
+            await _fornecedorService.AlterarRazaoSocial(id, novaRazaoSocial);
+
+            return Ok("Razão social do fornecedor alterado com sucesso");
+        }
+
+        [HttpPut]
+        [Route("Ativar/{id}")]
+        public async Task<IActionResult> Ativa(int id)
+        {
+            await _fornecedorService.Ativar(id);
+
+            return Ok("Fornecedor ativado com sucesso");
+        }
+
+        [HttpPut]
+        [Route("Desativar/{id}")]
+        public async Task<IActionResult> Desativa(int id)
+        {
+            await _fornecedorService.Desativar(id);
+
+            return Ok("Fornecedor desativado com sucesso");
+        }
     }
 }
