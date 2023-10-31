@@ -59,8 +59,12 @@ namespace GestaoProduto.Data.Repository
 
         public async Task<Categoria> ObterPorId(int id)
         {
-            List<Categoria> categorias = LerCategoriasDoArquivo();
-            return await Task.FromResult(categorias.FirstOrDefault(p => p.Codigo == id));
+            //List<Categoria> categorias = LerCategoriasDoArquivo();
+            //return await Task.FromResult(categorias.FirstOrDefault(p => p.Codigo == id));
+
+            var buscaCategoria = _categoriaRepository.FilterBy(filter => filter.Codigo == id);
+            var categoria = _mapper.Map<Categoria>(buscaCategoria.FirstOrDefault());
+            return categoria;
         }
 
         public Task<IEnumerable<Categoria>> ObterPorCategoria(string nomeCategoria)

@@ -88,19 +88,17 @@ namespace GestaoProjeto.Application.Services
             await _produtoRepository.AtualizarEstoque(buscaProduto, quantidade);
         }
 
-        //public async Task Delete(int id)
-        //{
-        //    var produto = await _produtoRepository.ObterPorId(id);
+        public async Task Deletar(int id)
+        {
+            var buscaProduto = await _produtoRepository.ObterPorId(id);
 
-        //    if (produto == null)
-        //    {
-        //        throw new ApplicationException("Produto não encontrado.");
-        //    }
+            if (buscaProduto == null)
+            {
+                throw new ApplicationException("Não é possível deletar um produto que não existe!");
+            }
 
-        //    _produtoRepository.DeleteById(produto.Id); // Supondo que você tenha uma propriedade 'Id' na sua classe 'Produto' ou 'ProdutoCollection'
-        //}
-
-
+            await _produtoRepository.Deletar(buscaProduto);
+        }
 
         public async Task Desativar(int id)
         {

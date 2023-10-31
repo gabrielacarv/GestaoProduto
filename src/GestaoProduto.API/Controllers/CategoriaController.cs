@@ -8,7 +8,7 @@ using GestaoProjeto.Application.Services;
 namespace GestaoProduto.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaService _categoriaService;

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using GestaoProduto.Data.Providers.MongoDb.Collections;
 using GestaoProduto.Data.Providers.MongoDb.Interfaces;
 using AutoMapper;
+using MongoDB.Driver;
 
 namespace GestaoProduto.Data.Repository
 {
@@ -57,7 +58,7 @@ namespace GestaoProduto.Data.Repository
             var buscaProduto = _produtoRepository.FilterBy(filter => filter.Codigo == id);
             var produto = _mapper.Map<Produto>(buscaProduto.FirstOrDefault());
             return produto;
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Produto>> ObterPorNome(string nomeProduto)
@@ -132,24 +133,24 @@ namespace GestaoProduto.Data.Repository
         }
 
 
-        public bool Deletar(int id)
-        {
-            //List<Produto> produtos = LerProdutosDoArquivo();
-            //var produtoExistente = produtos.FirstOrDefault(p => p.Codigo == id);
-            //if (produtoExistente != null)
-            //{
-            //    produtos.Remove(produtoExistente);
-            //    EscreverProdutosNoArquivo(produtos);
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            //var buscaProduto = _produtoRepository.DeleteById();
+        //public bool Deletar(int id)
+        //{
+        //    List<Produto> produtos = LerProdutosDoArquivo();
+        //    var produtoExistente = produtos.FirstOrDefault(p => p.Codigo == id);
+        //    if (produtoExistente != null)
+        //    {
+        //        produtos.Remove(produtoExistente);
+        //        EscreverProdutosNoArquivo(produtos);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //    var buscaProduto = _produtoRepository.DeleteById();
 
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
 
         public async Task Ativar(Produto produto)
         {
@@ -195,7 +196,24 @@ namespace GestaoProduto.Data.Repository
             await _produtoRepository.ReplaceOneAsync(_mapper.Map<ProdutoCollection>(produtoEstoque));
         }
 
-        
+        public async Task Deletar(Produto produto)
+        {
+            var buscaProduto = _produtoRepository.FilterBy(filter => filter.Codigo == produto.Codigo);
+            var produtoAtualizar = buscaProduto.FirstOrDefault();
+
+            if (produtoAtualizar == null)
+            {
+                throw new ApplicationException("Produto não encontrado.");
+            }
+
+            // Use o código do produto a ser excluído para criar o filtro
+            var filtro = Builders<ProdutoCollection>.Filter.Eq(p => p.Codigo, produto.Codigo);
+
+            // Chame o método DeleteOne com o filtro
+            await _produtoRepository.DeleteOneAsync(filtro);
+        }
+
+
 
         #endregion
 

@@ -149,8 +149,11 @@ namespace GestaoProduto.Data.Repository
 
         public async Task<Fornecedor> ObterPorId(int id)
         {
-            List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
-            return await Task.FromResult(fornecedores.FirstOrDefault(p => p.Codigo == id));
+            //List<Fornecedor> fornecedores = LerFornecedoresDoArquivo();
+            //return await Task.FromResult(fornecedores.FirstOrDefault(p => p.Codigo == id));
+            var buscaFornecedor = _fornecedorRepository.FilterBy(filter => filter.Codigo == id);
+            var fornecedor = _mapper.Map<Fornecedor>(buscaFornecedor.FirstOrDefault());
+            return fornecedor;
         }
 
         public IEnumerable<Fornecedor> ObterTodos()

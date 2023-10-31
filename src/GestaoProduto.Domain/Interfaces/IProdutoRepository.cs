@@ -14,7 +14,7 @@ namespace GestaoProduto.Domain.Interfaces
         Task<IEnumerable<Produto>> ObterPorNome(string nomeProduto);
         Task Adicionar(Produto produto);
         Task Atualizar(Produto produto);
-        //Task Deletar(int id);
+        Task Deletar(Produto produto);
         Task Ativar(Produto produto);
         Task Desativar(Produto produto);
         Task AlterarPreco(Produto produto, decimal valor);

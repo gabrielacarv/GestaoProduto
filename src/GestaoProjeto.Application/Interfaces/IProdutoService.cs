@@ -1,4 +1,5 @@
-﻿using GestaoProjeto.Application.ViewModels;
+﻿using GestaoProduto.Domain.Entities;
+using GestaoProjeto.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace GestaoProjeto.Application.Interfaces
         Task<IEnumerable<ProdutoViewModel>> ObterPorNome(string produtoNome);
         void Adicionar(NovoProdutoViewModel novoProdutoViewModel);
         Task Atualizar(NovoProdutoViewModel novoProdutoViewModel);
+        Task Deletar(int id);
         Task Ativar (int id);
         Task Desativar(int id);
         Task AlterarPreco(int id, decimal valor);
         Task AtualizarEstoque(int id, int quantidade);
-        //Task Deletar(int id);
     }
 }

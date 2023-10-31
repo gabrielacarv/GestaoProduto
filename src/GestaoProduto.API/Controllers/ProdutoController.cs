@@ -88,7 +88,6 @@ namespace GestaoProduto.API.Controllers
         public async Task<IActionResult> Ativa(int id)
         {
             await _produtoService.Ativar(id);
-
             return Ok("Produto ativado com sucesso");
         }
 
@@ -97,23 +96,15 @@ namespace GestaoProduto.API.Controllers
         public async Task<IActionResult> Desativa(int id)
         {
             await _produtoService.Desativar(id);
-
             return Ok("Produto desativado com sucesso");
         }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    try
-        //    {
-        //        await _produtoService.Deletar(id);
-        //        return Ok("Produto excluído com sucesso");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest($"Erro ao excluir o produto: {ex.Message}");
-        //    }
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _produtoService.Deletar(id);
+            return Ok("Produto deletado com sucesso!");
+        }
 
     }
 }
