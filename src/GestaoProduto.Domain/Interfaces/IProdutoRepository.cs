@@ -19,5 +19,6 @@ namespace GestaoProduto.Domain.Interfaces
         Task Desativar(Produto produto);
         Task AlterarPreco(Produto produto, decimal valor);
         Task AtualizarEstoque(Produto produto, int quantidade);
+        Task AlterarEstoqueMinimo(Produto produto, int valor);
     }
 }

@@ -140,11 +140,11 @@ namespace GestaoProduto.Data.Repository
             await _fornecedorRepository.ReplaceOneAsync(_mapper.Map<FornecedorCollection>(fornecedorRazaoSocial));
         }
 
-        public Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor)
+        public async Task<IEnumerable<Fornecedor>> ObterPorFornecedor(string nomeFornecedor)
         {
             var fornecedoresEncontrados = _fornecedorRepository.FilterBy(filter => filter.RazaoSocial.Contains(nomeFornecedor));
 
-            return (Task<IEnumerable<Fornecedor>>)_mapper.Map<IEnumerable<Fornecedor>>(fornecedoresEncontrados);
+            return _mapper.Map<IEnumerable<Fornecedor>>(fornecedoresEncontrados);
         }
 
         public async Task<Fornecedor> ObterPorId(int id)

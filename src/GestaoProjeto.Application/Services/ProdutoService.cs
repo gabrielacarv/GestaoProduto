@@ -17,11 +17,13 @@ namespace GestaoProjeto.Application.Services
         #region Construtores
         private readonly IProdutoRepository _produtoRepository;
         private IMapper _mapper;
+        private readonly EmailService _emailService;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper)
+        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper, EmailService emailService)
         {
             _produtoRepository = produtoRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
         #endregion
 
@@ -75,7 +77,7 @@ namespace GestaoProjeto.Application.Services
 
             if (buscaProduto == null)
             {
-                throw new ApplicationException("Não é possível alterar o preço de um produto que não existe!");
+                throw new ApplicationException("Não é possível alterar o estoque de um produto que não existe!");
             }
 
             if (buscaProduto.Estoque + quantidade < 0)
@@ -85,7 +87,34 @@ namespace GestaoProjeto.Application.Services
 
             buscaProduto.AtualizarEstoque(quantidade);
 
+            var estoqueMinimo = buscaProduto.EstoqueMinimo;
+
+            if (buscaProduto.Estoque < estoqueMinimo)
+            {
+                _emailService.VerificarEstoqueEEnviarEmail(buscaProduto, estoqueMinimo);
+            }
+
             await _produtoRepository.AtualizarEstoque(buscaProduto, quantidade);
+        }
+
+
+        public async Task AlterarEstoqueMinimo(int id, int quantidade)
+        {
+            var buscaProduto = await _produtoRepository.ObterPorId(id);
+
+            if (buscaProduto == null)
+            {
+                throw new ApplicationException("Não é possível alterar a quantidade do estoque de um produto que não existe!");
+            }
+
+            if (buscaProduto.Estoque + quantidade < 1)
+            {
+                throw new ArgumentException("O estoque mínimo deve ser maior que 1.");
+            }
+
+            buscaProduto.AlterarEstoqueMinimo(quantidade);
+
+            await _produtoRepository.AlterarEstoqueMinimo(buscaProduto, quantidade);
         }
 
         public async Task Deletar(int id)

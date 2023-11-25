@@ -32,6 +32,21 @@ namespace GestaoProduto.API.Controllers
             return Ok(fornecedor);
         }
 
+        [HttpGet("BuscarPorNome/{nome}")]
+        public async Task<IActionResult> ObterPorFornecedor(string nome)
+        {
+            var fornecedor = await _fornecedorService.ObterPorFornecedor(nome);
+
+            if (fornecedor.Any())
+            {
+                return Ok(fornecedor);
+            }
+            else
+            {
+                return NotFound("Nenhum fornecedor encontrado com o nome especificado.");
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(NovoFornecedorViewModel novoFornecedorViewModel)
         {

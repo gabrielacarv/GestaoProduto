@@ -10,7 +10,7 @@ namespace GestaoProduto.Domain.Entities
     public class Produto
     {
         #region - Construtores
-        public Produto(int codigo, string nome, string descricao, bool ativo, decimal valor, DateTime dataCadastro, int estoque)
+        public Produto(int codigo, string nome, string descricao, bool ativo, decimal valor, DateTime dataCadastro, int estoque, int estoqueMinimo)
         {
             Codigo = codigo;
             Nome = nome;
@@ -19,7 +19,9 @@ namespace GestaoProduto.Domain.Entities
             Valor = valor;
             DataCadastro = dataCadastro;
             Estoque = estoque;
+            EstoqueMinimo = estoqueMinimo;
         }
+
         #endregion
 
         #region - Propriedades
@@ -30,6 +32,7 @@ namespace GestaoProduto.Domain.Entities
         public decimal Valor { get; private set; }
         public DateTime DataCadastro { get; private set; }
         public int Estoque { get; private set; }
+        public int EstoqueMinimo { get; set; }
 
         #endregion
 
@@ -65,6 +68,11 @@ namespace GestaoProduto.Domain.Entities
         public void AlterarPreco(decimal valor)
         {
             Valor = valor;
+        }
+
+        public void AlterarEstoqueMinimo(int quant)
+        {
+            EstoqueMinimo = quant;
         }
 
         #endregion

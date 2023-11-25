@@ -15,5 +15,6 @@ namespace GestaoProjeto.Application.ViewModels
         public decimal Valor { get; set; }
         public DateTime DataCadastro { get; private set; } = DateTime.Now;
         public int Estoque { get; set; }
+        public int EstoqueMinimo { get; set; }
     }
 }

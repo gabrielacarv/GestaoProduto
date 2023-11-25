@@ -21,5 +21,6 @@ namespace GestaoProjeto.Application.Interfaces
         Task Desativar(int id);
         Task AlterarPreco(int id, decimal valor);
         Task AtualizarEstoque(int id, int quantidade);
+        Task AlterarEstoqueMinimo(int id, int quantidade);
     }
 }

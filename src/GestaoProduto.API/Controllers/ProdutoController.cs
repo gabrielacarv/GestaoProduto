@@ -75,6 +75,14 @@ namespace GestaoProduto.API.Controllers
             return Ok("Estoque do produto alterado com sucesso");
         }
 
+        [HttpPut("AtualizarEstoqueMinimo/{id}/{quantidade}")]
+        public async Task<IActionResult> AlterarEstoqueMinimo(int id, int quantidade)
+        {
+            await _produtoService.AlterarEstoqueMinimo(id, quantidade);
+
+            return Ok("Estoque mínimo do produto alterado com sucesso");
+        }
+
         [HttpPut("AlterarPreco/{id}/{novoPreco}")]
         public async Task<IActionResult> AlterarPreco(int id, decimal novoPreco)
         {

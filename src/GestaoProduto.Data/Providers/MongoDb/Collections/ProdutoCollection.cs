@@ -17,6 +17,7 @@ namespace GestaoProduto.Data.Providers.MongoDb.Collections
         public decimal Valor { get;  set; }
         public DateTime DataCadastro { get;  set; }
         public int Estoque { get;  set; }
+        public int EstoqueMinimo { get; set; }
         #endregion
     }
 }

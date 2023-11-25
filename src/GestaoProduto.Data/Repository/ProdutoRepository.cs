@@ -38,7 +38,7 @@ namespace GestaoProduto.Data.Repository
             List<Produto> lista = new List<Produto>();
             foreach (var item in produtoList)
             {
-                lista.Add(new Produto(item.Codigo, item.Nome, item.Descricao, item.Ativo, item.Valor, item.DataCadastro, item.Estoque));
+                lista.Add(new Produto(item.Codigo, item.Nome, item.Descricao, item.Ativo, item.Valor, item.DataCadastro, item.Estoque, item.EstoqueMinimo));
             }
 
             //return _mapper.Map<IEnurable<Produto>>(produtoList);
@@ -192,6 +192,17 @@ namespace GestaoProduto.Data.Repository
             var produtoEstoque = buscaProduto.FirstOrDefault();
 
             produtoEstoque.Estoque = produto.Estoque;
+
+            await _produtoRepository.ReplaceOneAsync(_mapper.Map<ProdutoCollection>(produtoEstoque));
+        }
+
+        public async Task AlterarEstoqueMinimo(Produto produto, int quantidade)
+        {
+            var buscaProduto = _produtoRepository.FilterBy(filter => filter.Codigo == produto.Codigo);
+
+            var produtoEstoque = buscaProduto.FirstOrDefault();
+
+            produtoEstoque.EstoqueMinimo = produto.EstoqueMinimo;
 
             await _produtoRepository.ReplaceOneAsync(_mapper.Map<ProdutoCollection>(produtoEstoque));
         }

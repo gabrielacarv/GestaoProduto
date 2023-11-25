@@ -2,15 +2,13 @@ using GestaoProduto.Data.Repository;
 using GestaoProduto.Domain.Interfaces;
 using GestaoProjeto.Application.Interfaces;
 using GestaoProjeto.Application.Services;
-using Microsoft.AspNetCore.Hosting;
-using AutoMapper;
 using GestaoProjeto.Application.AutoMapper;
 using GestaoProduto.Data.Providers.MongoDb.Configuration;
 using GestaoProduto.Data.Providers.MongoDb.Interfaces;
 using Microsoft.Extensions.Options;
-using GestaoProduto.Data.Providers.MongoDb.Collections;
 using GestaoProduto.Data.Providers.MongoDb;
 using GestaoProduto.Data.AutoMapper;
+using GestaoProduto.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(DomainToApplication), typeof(ApplicationTo
 
 builder.Services.AddAutoMapper(typeof(DomainToCollection), typeof(CollectionToDomain));
 
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
@@ -41,6 +40,8 @@ builder.Services.AddSingleton<IMongoDbSettings>(serviceProvider =>
        serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
 builder.Services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
 
 var app = builder.Build();
 
