@@ -10,6 +10,7 @@ namespace GestaoProduto.Domain.Interfaces
     public interface IUsuarioRepository
     {
         public Task<Usuario> Autenticar (string login, string senha);
+        public Task<Usuario> Autenticar2(string login);
         public Task Cadastrar(Usuario usuario);
     }
 }

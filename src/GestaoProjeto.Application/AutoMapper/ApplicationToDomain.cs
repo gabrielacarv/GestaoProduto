@@ -25,6 +25,9 @@ namespace GestaoProjeto.Application.AutoMapper
 
             CreateMap<NovaCategoriaViewModel, Categoria>()
                 .ConstructUsing(q=> new Categoria(q.Codigo, q.Descricao));
+
+            CreateMap<UsuarioViewModel, Usuario>()
+                .ConstructUsing(u => new Usuario(u.Login, u.Senha, u.Ativo));
         }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using GestaoProduto.Data.Providers.MongoDb;
 using GestaoProduto.Data.AutoMapper;
 using GestaoProduto.Infra;
+using GestaoProduto.Infra.Autenticacao;
+using GestaoProduto.Infra.Autenticacao.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,16 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+builder.Services.Configure<Token>(
+    builder.Configuration.GetSection("token"));
+
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));

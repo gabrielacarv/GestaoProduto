@@ -24,6 +24,8 @@ namespace GestaoProjeto.Application.AutoMapper
             CreateMap<Categoria, CategoriaViewModel>();
 
             CreateMap<Categoria, NovaCategoriaViewModel>();
+
+            CreateMap<Usuario, UsuarioViewModel>();
         }
     }
 }

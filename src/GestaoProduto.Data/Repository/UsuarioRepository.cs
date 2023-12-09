@@ -29,6 +29,13 @@ namespace GestaoProduto.Data.Repository
             return _mapper.Map<Usuario>(buscaUsuario);
         }
 
+        public async Task<Usuario> Autenticar2(string login)
+        {
+            var buscaUsuario = await _usuarioRepository.FindOneAsync(filtro => filtro.Login == login);
+
+            return _mapper.Map<Usuario>(buscaUsuario);
+        }
+
         public async Task Cadastrar(Usuario novoUsuario)
         {
             await _usuarioRepository.InsertOneAsync(_mapper.Map<UsuarioCollection>(novoUsuario));
